@@ -41,7 +41,7 @@ subroutine cargar_inventario()
     implicit none
     !Declarando las variables para la carag del inventario
     character(len=256) :: linea
-    character(len=192) :: nombre, instruccion, ubicacion
+    character(len=50) :: nombre, instruccion, ubicacion, parametros
     integer:: cantidad, iostat, contador
     real :: precio
     logical :: e
@@ -52,12 +52,17 @@ subroutine cargar_inventario()
         !Abriendo el archivo
         open(unit=1, file="inventario.inv", status="old", action="read")
         do
-            read(1, '(A)', iostat=iostat) linea
-            if(iostat/=0) exit
-            !Mostrando el contenido del archivo
-            read(linea,*, iostat=iostat) instruccion, nombre, cantidad, precio, ubicacion
-            print *, "Producto: ", nombre, "Cantidad: ", cantidad, "Precio: ", precio, "Ubicacion: ", ubicacion
-            contador=contador+1
+            read(1, '(A)', iostat=iostat) linea            
+            if(iostat/=0) then 
+                print *, "No se pudo leer la línea"
+                exit
+            end if
+            
+            !Aquí tengo que arreglar la lógica para separar los datos
+            !Aquí tengo que arreglar la lógica para separar los datos
+            !Aquí tengo que arreglar la lógica para separar los datos
+
+
         end do
         print *, "Se han cargado ", contador, " productos al inventario exitosamente"
         close(1)
@@ -65,9 +70,28 @@ subroutine cargar_inventario()
         print *, "El archivo inventario.inv no existe"
         return
     end if
-
-
-    
 end subroutine cargar_inventario !Terminando la funcion para leer el archivo
 
+
+
+
+
+
+
+
+
+
+
+
+subroutine cargar_instrucciones()
+    use globales
+    implicit none
+    
+end subroutine cargar_instrucciones !Terminando la funcion para leer el archivo
+
+subroutine crear_informe()
+    use globales
+    implicit none
+    
+end subroutine crear_informe !Terminando la funcion para leer el archivo
 
