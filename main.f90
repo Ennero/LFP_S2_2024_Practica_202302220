@@ -2,6 +2,7 @@ module globales
     implicit none
     character(len=50), dimension (3, 50) :: datos !Declarando el arreglo que contiene TODO el archivo
     real, dimension(3,50) :: datosN
+    integer :: productos !Declarando la variable que contiene la cantidad de productos que
 contains
 end module globales
 
@@ -35,7 +36,7 @@ program sistema_inventario
     end do
 end program sistema_inventario
 
-subroutine cargar_inventario()
+subroutine cargar_inventario() !Funcion para leer el archivo
     use globales
     implicit none
     !Declarando las variables para la carag del inventario
@@ -87,7 +88,7 @@ subroutine cargar_inventario()
                 datosN(1,contador)=contador
                 print *, "intruccion:" ,datos(1,contador),"nombre:",datos(2,contador),"cantidad:",datosN(1,contador),"precio:",datosN(2,contador),"ubicacion:",datos(3,contador)
             else
-                    print *, "Instruccion", instruccion ," de la linea", contador, " no valida"
+                    print *, "Instruccion: ", instruccion ," de la linea", contador, " no valida"
             end if
         end do
         print *, "Se han cargado ",exitos, " productos al inventario exitosamente"
@@ -98,25 +99,67 @@ subroutine cargar_inventario()
     end if
 end subroutine cargar_inventario !Terminando la funcion para leer el archivo
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 subroutine cargar_instrucciones()
     use globales
     implicit none
+    character(len=50) :: linea,nombre, instruccion, ubicacion, parametros
+    integer:: cantidad, iostat, contador,p,exitos,i
+    logical :: e
+    contador=0
+    exitos=0
+    !Verifico la existencia del archivo
+    inquire(file="instrucciones.mov", exist=e)
+    if(e) then
+        !Abriendo el archivo
+        open(unit=1, file="instrucciones.mov", status="old", action="read")
+        do
+            read(1, '(A)', iostat=iostat) linea! Leyendo cada línea   
+            if(iostat/=0) then 
+                exit
+            end if
+            contador=contador+1
+            p=index(linea, ' ')!Separando la instrucción de los parámetros
+            if(p>0) then
+                read(linea(1:p-1), '(A)', iostat=iostat) instruccion
+                parametros=linea(p+1:)
+            end if
+            if(instruccion=="agregar_stock") then
+                p=index(parametros, ';')!Separando el nombre de los demás parámetros
+                if(p>0) then
+                    read(parametros(1:p-1), '(A)', iostat=iostat) nombre
+                    parametros=parametros(p+1:)
+                end if
+                p=index(parametros, ';')!Separando la cantidad de los demás parámetros
+                if(p>0) then
+                    read(parametros(1:p-1), '(I6)', iostat=iostat) cantidad
+                    ubicacion=parametros(p+1:)
+                end if
+                
+                do 
+                i=i+1 
+                if(i>=50) then!Recorriendo la lista de productos para actualizar la cantidad
+                    exit
+                else if ( nombre==datos(2,i) .AND. ubicacion==datos(3,i) ) then
+                    datosN(2,i)=datosN(2,i)+cantidad
+                    exitos=exitos+1
+                else if (ubicacion==datos(3,i)) then
+                    print *, "No se encontro el producto ",nombre," en la ubicacion ",ubicacion
+                else
+                    exit
+                end if
+                end do
+                print *, "intruccion:" ,datos(1,contador),"nombre:",datos(2,contador),"cantidad:",datosN(1,contador),"precio:",datosN(2,contador),"ubicacion:",datos(3,contador)
+            else
+                    print *, "Instruccion", instruccion ," de la linea", contador, " no valida"
+            end if
+        end do
+        print *, "Se han actualizado ",exitos, " productos al inventario exitosamente"
+        close(1)
+    else
+        print *, "El archivo instrucciones.mov no existe"
+        return
+    end if
+    print *, "intruccion:" ,datos(1,contador),"nombre:",datos(2,contador),"cantidad:",datosN(1,contador),"precio:",datosN(2,contador),"ubicacion:",datos(3,contador)
     
 end subroutine cargar_instrucciones !Terminando la funcion para leer el archivo
 
