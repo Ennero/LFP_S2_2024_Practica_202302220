@@ -80,31 +80,32 @@ subroutine cargar_inventario() !Funcion para leer el archivo
                     ubicacion=parametros(p+1:)
                 end if
                 !print *,"nombre:",nombre,"cantidad:",cantidad,"precio:",precio,"ubicacion:",ubicacion
-                datos(1,contador)=instruccion !Guardando los datos en el arreglo
-                datos(2,contador)=nombre
-                datosN(2,contador)=cantidad
-                datosN(3,contador)=precio
-                datos(3,contador)=ubicacion
-                datosN(1,contador)=contador
-                print *, "intruccion:" ,datos(1,contador),"nombre:",datos(2,contador),"cantidad:",datosN(1,contador),"precio:",datosN(2,contador),"ubicacion:",datos(3,contador)
+                datos(1,exitos)=instruccion !Guardando los datos en el arreglo
+                datos(2,exitos)=nombre
+                datosN(2,exitos)=cantidad
+                datosN(3,exitos)=precio
+                datos(3,exitos)=ubicacion
+                datosN(1,exitos)=contador
+                print *, "INSTRUCCION: " ,trim(datos(1,exitos)),"; NOMBRE: ",trim(datos(2,exitos)),"; CANTIDAD: ",datosN(1,exitos),"; PRECIO: ",datosN(2,exitos),"; UBICACION: ",trim(datos(3,exitos))
             else
-                    print *, "Instruccion: ", instruccion ," de la linea", contador, " no valida"
+                    print *, "INSTRUCCION: ", instruccion ," de la linea", contador, " no valida"
             end if
         end do
-        print *, "Se han cargado ",exitos, " productos al inventario exitosamente"
+        print *, "SE HAN CARGADO ",exitos, " PRODUCTOS AL INVENTARIO EXITOSAMENTE"
         close(1)
     else
-        print *, "El archivo inventario.inv no existe"
+        print *, "EL ARCHIVO INVENTARIO.INV NO EXISTE"
         return
     end if
 end subroutine cargar_inventario !Terminando la funcion para leer el archivo
 
-subroutine cargar_instrucciones()
+subroutine cargar_instrucciones() !Funcion para cargar las instrucciones4
+    
     use globales
     implicit none
     character(len=50) :: linea,nombre, instruccion, ubicacion, parametros
     integer:: cantidad, iostat, contador,p,exitos,i
-    logical :: e
+    logical :: e,v1
     contador=0
     exitos=0
     !Verifico la existencia del archivo
@@ -123,7 +124,7 @@ subroutine cargar_instrucciones()
                 read(linea(1:p-1), '(A)', iostat=iostat) instruccion
                 parametros=linea(p+1:)
             end if
-            if(instruccion=="agregar_stock") then
+            if(instruccion=="agregar_stock") then !PARA AGREGAR STOCK--------------------------------------------------
                 p=index(parametros, ';')!Separando el nombre de los demás parámetros
                 if(p>0) then
                     read(parametros(1:p-1), '(A)', iostat=iostat) nombre
@@ -134,32 +135,75 @@ subroutine cargar_instrucciones()
                     read(parametros(1:p-1), '(I6)', iostat=iostat) cantidad
                     ubicacion=parametros(p+1:)
                 end if
-                
-                do 
-                i=i+1 
-                if(i>=50) then!Recorriendo la lista de productos para actualizar la cantidad
-                    exit
-                else if ( nombre==datos(2,i) .AND. ubicacion==datos(3,i) ) then
-                    datosN(2,i)=datosN(2,i)+cantidad
-                    exitos=exitos+1
-                else if (ubicacion==datos(3,i)) then
-                    print *, "No se encontro el producto ",nombre," en la ubicacion ",ubicacion
-                else
-                    exit
+                do while (i<50) !Ciclo para recorrer el arreglo y aumentar la cantidad
+                    i=i+1
+                    if (nombre==datos(2,i)) then
+                        if ( ubicacion==datos(3,i) ) then
+                            datosN(2,i)=datosN(2,i)+cantidad
+                            exitos=exitos+1
+                            v1=.true.
+                        else
+                            v1=.false.
+                            print *,"ERROR, el producto ", trim(datos(2,contador)) ," no se encuentra en ", trim(datos(3,contador))
+                        end if
+                    else
+                        end if
+                end do !COLOCAR UN BANDERA PARA PODER SABER SI SE MANTUVO IGUAL O SE MODIFICO
+                i=0 !Reinicio de la cuenta del ciclo
+
+                if(v1) then
+                    print *, "Producto: ", trim(datos(2,contador)), " actualizo su cantidad a: ", datosN(2,contador)
                 end if
-                end do
-                print *, "intruccion:" ,datos(1,contador),"nombre:",datos(2,contador),"cantidad:",datosN(1,contador),"precio:",datosN(2,contador),"ubicacion:",datos(3,contador)
+
+
+                
             else
-                    print *, "Instruccion", instruccion ," de la linea", contador, " no valida"
+                if(instruccion=="eliminar_equipo") then !PARA ELIMINAR EQUIPO--------------------------------------------------
+                    p=index(parametros, ';')!Separando el nombre de los demás parámetros
+                if(p>0) then
+                    read(parametros(1:p-1), '(A)', iostat=iostat) nombre
+                    parametros=parametros(p+1:)
+                end if
+                p=index(parametros, ';')!Separando la cantidad de los demás parámetros
+                if(p>0) then
+                    read(parametros(1:p-1), '(I6)', iostat=iostat) cantidad
+                    ubicacion=parametros(p+1:)
+                end if
+
+                do while (i<50) !Ciclo para recorrer el arreglo y eliminar una cantidad
+                    i=i+1
+                    if (nombre==datos(2,i)) then
+                        if (ubicacion==datos(3,i) ) then
+                            if (cantidad>datosN(2,i)) then
+                                print *,"ERROR, la cantidad a eliminar es mayor a la cantidad en stock"
+                                v1=.false.
+                            else
+                            datosN(2,i)=datosN(2,i)-cantidad
+                            exitos=exitos+1
+                            v1=.true.
+                            end if
+                        else
+                            v1=.false.
+                            print *,"ERROR, el producto ", trim(datos(2,contador)) ," no se encuentra en ", trim(datos(3,contador))
+                        end if
+                    else
+                        end if
+                end do
+                i=0 !Reinicio de la cuenta del ciclo
+                if(v1) then
+                    print *, "Producto: ", trim(datos(2,contador)), " actualizo su cantidad a: ", datosN(2,contador)
+                end if                
+                else
+                    print *, "Instruccion: ", trim(instruccion) ," de la linea", contador, " no valida"
+                end if
             end if
         end do
-        print *, "Se han actualizado ",exitos, " productos al inventario exitosamente"
+            print *, "Se ha actualizado la cantidad de ",exitos, " productos exitosamente"
         close(1)
     else
         print *, "El archivo instrucciones.mov no existe"
         return
     end if
-    print *, "intruccion:" ,datos(1,contador),"nombre:",datos(2,contador),"cantidad:",datosN(1,contador),"precio:",datosN(2,contador),"ubicacion:",datos(3,contador)
     
 end subroutine cargar_instrucciones !Terminando la funcion para leer el archivo
 
