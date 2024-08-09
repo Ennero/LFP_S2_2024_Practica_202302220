@@ -216,7 +216,7 @@ subroutine crear_informe() !función para crear el informe
     integer :: i
     i=0
     informe="informe.txt"
-    open(unit=6, file=informe,status="unknown", action="write") !Abriendo el archivo y creandolo
+    open(unit=22, file=informe,status="unknown", action="write") !Abriendo el archivo y creandolo
     write(22,*) "-------------------------| INFORME DE INVENTARIO |-------------------------" !Escribiendo en el archivo
     write(22,*) "|    EQUIPO    |   CANTIDAD   |  PRECIO UNITARIO  | VALOR TOTAL | UBICACION |"
     do while(i<productos) !Ciclo para recorrer el arreglo y escribir en el archivo
@@ -225,6 +225,6 @@ subroutine crear_informe() !función para crear el informe
     end do
     write(22,*) "---------------------------------------------------------------------------" !Mensaje de confirmación
     close(22); !Cerrando el archivo
-    print *, "Archivo generado exitosamente" !Mensaje de confirmación
+    print *, "Archivo generado exitosamente :)" !Mensaje de confirmación
 end subroutine crear_informe !Terminando la funcion para leer el archivo
 

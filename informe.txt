@@ -1,7 +1,6 @@
- Archivo generado exitosamente
- SELECCIONE UNA OPCION:
- #1. Cargar inventario inicial
- #2. Cargar Instrucciones de movimiento
- #3. Crear informa de inventario
- #4. Salir
- Saliendo del programa...
+ -------------------------| INFORME DE INVENTARIO |-------------------------
+ |    EQUIPO    |   CANTIDAD   |  PRECIO UNITARIO  | VALOR TOTAL | UBICACION |
+ Lapices           1160.00000       2.50000000       2900.00000     BodegaA
+ Computadoras      150.000000       3000.00000       450000.000     BodegaB
+ Escritorios       75.0000000       100.750000       7556.25000     BodegaC
+ ---------------------------------------------------------------------------
