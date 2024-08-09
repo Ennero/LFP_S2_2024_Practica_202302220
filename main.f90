@@ -77,7 +77,7 @@ subroutine cargar_inventario() !Funcion para leer el archivo
                 end if
                 p=index(parametros, ';')!Separando el precio de la ubicación
                 if(p>0) then
-                    read(parametros(1:p-1), '(F6.2)', iostat=iostat) precio
+                    read(parametros(1:p-1), '(F6.2)', iostat=iostat) precio !El precio debe estar en formato 6.2 [dos decimales]
                     ubicacion=parametros(p+1:)
                 end if
                 !print *,"nombre:",nombre,"cantidad:",cantidad,"precio:",precio,"ubicacion:",ubicacion
@@ -87,7 +87,7 @@ subroutine cargar_inventario() !Funcion para leer el archivo
                 datosN(3,exitos)=precio
                 datos(3,exitos)=ubicacion
                 datosN(1,exitos)=contador
-                print *, "INSTRUCCION: " ,trim(datos(1,exitos)),"; NOMBRE: ",trim(datos(2,exitos)),"; CANTIDAD: ",datosN(1,exitos),"; PRECIO: ",datosN(2,exitos),"; UBICACION: ",trim(datos(3,exitos))
+                print *, "INSTRUCCION: " ,trim(datos(1,exitos)),"; NOMBRE: ",trim(datos(2,exitos)),"; CANTIDAD: ",datosN(2,exitos),"; PRECIO: ",datosN(3,exitos),"; UBICACION: ",trim(datos(3,exitos))
             else
                     print *, "INSTRUCCION: ", instruccion ," de la linea", contador, " no valida"
             end if

@@ -1,2 +1,9 @@
-agregar_stock Lapices;60;BodegaA
-agregar_stock Computadoras;50;BodegaB
+
+agregar_stock limonada;2;BodegaB
+eliminar_equipo Lapices;60;BodegaB
+eliminar_equipos Computadoras;60;BodegaB
+eliminar_equipo SillasGamer;9;BodegaA
+
+
+agregar_stock Escritorios;25;BodegaC
+
