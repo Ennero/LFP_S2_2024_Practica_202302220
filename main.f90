@@ -106,7 +106,7 @@ subroutine cargar_instrucciones() !Funcion para cargar las instrucciones4
     use globales
     implicit none
     character(len=50) :: linea,nombre, instruccion, ubicacion, parametros
-    integer:: cantidad, iostat, contador,p,exitos,i
+    integer:: cantidad, iostat, contador,p,exitos,i,pos
     logical :: e,v1
     contador=0
     exitos=0
@@ -144,21 +144,18 @@ subroutine cargar_instrucciones() !Funcion para cargar las instrucciones4
                             datosN(2,i)=datosN(2,i)+cantidad
                             exitos=exitos+1
                             v1=.true.
+                            pos=i
                         else
                             v1=.false.
-                            print *,"ERROR, el producto ", trim(datos(2,contador)) ," no se encuentra en ", trim(datos(3,contador))
+                            print *,"ERROR, el producto ", trim(nombre) ," no se encuentra en ", trim(ubicacion)
                         end if
                     else
                         end if
                 end do !COLOCAR UN BANDERA PARA PODER SABER SI SE MANTUVO IGUAL O SE MODIFICO
                 i=0 !Reinicio de la cuenta del ciclo
-
                 if(v1) then
-                    print *, "Producto: ", trim(datos(2,contador)), " actualizo su cantidad a: ", datosN(2,contador)
+                    print *, "Producto: ", trim(nombre), " actualizo su cantidad a: ", datosN(2,pos)
                 end if
-
-
-                
             else
                 if(instruccion=="eliminar_equipo") then !PARA ELIMINAR EQUIPO--------------------------------------------------
                     p=index(parametros, ';')!Separando el nombre de los demás parámetros
@@ -177,23 +174,24 @@ subroutine cargar_instrucciones() !Funcion para cargar las instrucciones4
                     if (nombre==datos(2,i)) then
                         if (ubicacion==datos(3,i) ) then
                             if (cantidad>datosN(2,i)) then
-                                print *,"ERROR, la cantidad a eliminar es mayor a la cantidad en stock"
+                                print *,"ERROR, la cantidad a eliminar del producto", trim(nombre), " es mayor a la cantidad en stock"
                                 v1=.false.
                             else
                             datosN(2,i)=datosN(2,i)-cantidad
                             exitos=exitos+1
                             v1=.true.
+                            pos=i
                             end if
                         else
                             v1=.false.
-                            print *,"ERROR, el producto ", trim(datos(2,contador)) ," no se encuentra en ", trim(datos(3,contador))
+                            print *,"ERROR, el producto ", trim(nombre) ," no se encuentra en ", trim(ubicacion)
                         end if
                     else
                         end if
                 end do
                 i=0 !Reinicio de la cuenta del ciclo
                 if(v1) then
-                    print *, "Producto: ", trim(datos(2,contador)), " actualizo su cantidad a: ", datosN(2,contador)
+                    print *, "Producto: ", trim(datos(2,pos)), " actualizo su cantidad a: ", datosN(2,pos)
                 end if                
                 else
                     print *, "Instruccion: ", trim(instruccion) ," de la linea", contador, " no valida"
@@ -206,7 +204,6 @@ subroutine cargar_instrucciones() !Funcion para cargar las instrucciones4
         print *, "El archivo instrucciones.mov no existe"
         return
     end if
-    
 end subroutine cargar_instrucciones !Terminando la funcion para leer el archivo
 
 subroutine crear_informe() !función para crear el informe
@@ -225,6 +222,6 @@ subroutine crear_informe() !función para crear el informe
     end do
     write(22,*) "---------------------------------------------------------------------------" !Mensaje de confirmación
     close(22); !Cerrando el archivo
-    print *, "Archivo generado exitosamente :)" !Mensaje de confirmación
+    print *, "Informe generado exitosamente :)" !Mensaje de confirmación
 end subroutine crear_informe !Terminando la funcion para leer el archivo
 
