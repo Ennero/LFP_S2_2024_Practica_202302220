@@ -1,6 +1,6 @@
 module globales
     implicit none
-    character(len=50), dimension (3, 50) :: datos !Declarando el arreglo que contiene TODO el archivo
+    character(len=15), dimension (3, 50) :: datos !Declarando el arreglo que contiene TODO el archivo
     real, dimension(3,50) :: datosN
     integer :: productos !Declarando la variable que contiene la cantidad de productos que
 contains
@@ -40,7 +40,8 @@ subroutine cargar_inventario() !Funcion para leer el archivo
     use globales
     implicit none
     !Declarando las variables para la carag del inventario
-    character(len=50) :: linea,nombre, instruccion, ubicacion, parametros
+    character(len=50) :: linea,parametros
+    character(len=15) :: nombre, ubicacion, instruccion
     integer:: cantidad, iostat, contador,p,exitos
     real :: precio
     logical :: e
@@ -93,6 +94,7 @@ subroutine cargar_inventario() !Funcion para leer el archivo
         end do
         print *, "SE HAN CARGADO ",exitos, " PRODUCTOS AL INVENTARIO EXITOSAMENTE"
         close(1)
+        productos=exitos
     else
         print *, "EL ARCHIVO INVENTARIO.INV NO EXISTE"
         return
@@ -100,7 +102,7 @@ subroutine cargar_inventario() !Funcion para leer el archivo
 end subroutine cargar_inventario !Terminando la funcion para leer el archivo
 
 subroutine cargar_instrucciones() !Funcion para cargar las instrucciones4
-    
+
     use globales
     implicit none
     character(len=50) :: linea,nombre, instruccion, ubicacion, parametros
@@ -207,9 +209,22 @@ subroutine cargar_instrucciones() !Funcion para cargar las instrucciones4
     
 end subroutine cargar_instrucciones !Terminando la funcion para leer el archivo
 
-subroutine crear_informe()
+subroutine crear_informe() !función para crear el informe
     use globales
     implicit none
-    
+    character(len=15) :: informe
+    integer :: i
+    i=0
+    informe="informe.txt"
+    open(unit=6, file=informe,status="unknown", action="write") !Abriendo el archivo y creandolo
+    write(22,*) "-------------------------| INFORME DE INVENTARIO |-------------------------" !Escribiendo en el archivo
+    write(22,*) "|    EQUIPO    |   CANTIDAD   |  PRECIO UNITARIO  | VALOR TOTAL | UBICACION |"
+    do while(i<productos) !Ciclo para recorrer el arreglo y escribir en el archivo
+        i=i+1
+        write(22,*) datos(2,i), datosN(2,i), datosN(3,i), datosN(2,i)*datosN(3,i), trim(datos(3,i))
+    end do
+    write(22,*) "---------------------------------------------------------------------------" !Mensaje de confirmación
+    close(22); !Cerrando el archivo
+    print *, "Archivo generado exitosamente" !Mensaje de confirmación
 end subroutine crear_informe !Terminando la funcion para leer el archivo
 
