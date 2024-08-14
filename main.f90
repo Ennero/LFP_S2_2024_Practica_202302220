@@ -17,7 +17,7 @@ program sistema_inventario
         print *, "SELECCIONE UNA OPCION:"
         print *, "#1. Cargar inventario inicial"
         print *, "#2. Cargar Instrucciones de movimiento"
-        print *, "#3. Crear informa de inventario"
+        print *, "#3. Crear informe de inventario"
         print *, "#4. Salir"
         read *, opcion
         select case(opcion)
@@ -101,8 +101,7 @@ subroutine cargar_inventario() !Funcion para leer el archivo
     end if
 end subroutine cargar_inventario !Terminando la funcion para leer el archivo
 
-subroutine cargar_instrucciones() !Funcion para cargar las instrucciones4
-
+subroutine cargar_instrucciones() !Funcion para cargar las instrucciones
     use globales
     implicit none
     character(len=50) :: linea,nombre, instruccion, ubicacion, parametros
