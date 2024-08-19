@@ -1,9 +1,3 @@
-
-agregar_stock limonada;2;BodegaB
-eliminar_equipo Lapices;60;BodegaB
-eliminar_equipos Computadoras;60;BodegaB
-eliminar_equipo SillasGamer;9;BodegaA
-
-
-agregar_stock Escritorios;25;BodegaC
-
+agregar_stock Equipo4;40;BodegaW
+eliminar_equipo Equipo9;160;BodegaX
+eliminar_equipo Equipo14;22;BodegaW

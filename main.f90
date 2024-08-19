@@ -1,7 +1,7 @@
 module globales
     implicit none
-    character(len=15), dimension (3, 50) :: datos !Declarando el arreglo que contiene TODO el archivo
-    real, dimension(3,50) :: datosN
+    character(len=15), dimension (3, 500) :: datos !Declarando el arreglo que contiene TODO el archivo
+    real, dimension(3,500) :: datosN
     integer :: productos !Declarando la variable que contiene la cantidad de productos que
 contains
 end module globales
@@ -136,7 +136,7 @@ subroutine cargar_instrucciones() !Funcion para cargar las instrucciones
                     read(parametros(1:p-1), '(I6)', iostat=iostat) cantidad
                     ubicacion=parametros(p+1:)
                 end if
-                do while (i<50) !Ciclo para recorrer el arreglo y aumentar la cantidad
+                do while (i<500) !Ciclo para recorrer el arreglo y aumentar la cantidad
                     i=i+1
                     if (nombre==datos(2,i)) then
                         if ( ubicacion==datos(3,i) ) then
@@ -168,7 +168,7 @@ subroutine cargar_instrucciones() !Funcion para cargar las instrucciones
                     ubicacion=parametros(p+1:)
                 end if
 
-                do while (i<50) !Ciclo para recorrer el arreglo y eliminar una cantidad
+                do while (i<500) !Ciclo para recorrer el arreglo y eliminar una cantidad
                     i=i+1
                     if (nombre==datos(2,i)) then
                         if (ubicacion==datos(3,i) ) then
