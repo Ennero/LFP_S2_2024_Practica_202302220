@@ -1,0 +1,12 @@
+# Fortran
+*.o
+*.mod
+*.smod
+*.exe
+*.out
+build/
+bin/
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
