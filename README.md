@@ -1,68 +1,34 @@
-<div align="center">
+# Sistema de inventario y movimientos en Fortran
 
-# 📐 Formal Languages & Finite Automata Engine in Fortran (LFP)
+Programa por consola que carga inventario inicial, aplica instrucciones de movimientos y genera un informe de productos. Implementado íntegramente en Fortran.
 
-**Motor de procesamiento de autómatas finitos y gramáticas formales implementado en Fortran con interfaz Python.**
+## Requisitos
 
-[![Language](https://img.shields.io/badge/Language-Fortran,%20Python-blue?style=for-the-badge)](https://github.com/Ennero/LFP_S2_2024_Practica_202302220)
-[![Course](https://img.shields.io/badge/Course-Lenguajes%20Formales%20y%20de%20Programación-003366?style=for-the-badge)](https://ingenieria.usac.edu.gt/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](LICENSE)
+GNU Fortran (gfortran). Ejecutar desde la raíz para que se encuentren inventario.inv e instrucciones.mov.
 
-</div>
+## Ejecución
 
----
+Los comandos parten de la raíz del repositorio, salvo donde se indica otra terminal.
 
-
-## 📌 Descripción General
-
-Este repositorio contiene la implementación y entrega de **📐 Formal Languages & Finite Automata Engine in Fortran (LFP)**, desarrollado en el curso de **Lenguajes Formales y de Programación** en la Universidad de San Carlos de Guatemala.
-
-- **Objetivo:** Motor de procesamiento de autómatas finitos y gramáticas formales implementado en Fortran con interfaz Python.
-- **Stack Principal:** `Fortran, Python`.
-- **Área:** Ciencias de la Computación, Algoritmos y Desarrollo de Software.
-
----
-
-## 🚀 Características y Componentes
-
-- Implementación modular y buenas prácticas de codificación.
-- Manejo estructurado de datos, control de flujo y validaciones.
-- Documentación y scripts de soporte para compilación o ejecución.
-
----
-
-## 📦 Estructura del Proyecto
-
-```
-LFP_S2_2024_Practica_202302220/
-├── src/ o archivos de código fuente
-├── docs/ (si aplica)
-├── .gitignore
-├── LICENSE
-└── README.md
+```bash
+gfortran -ffree-line-length-none main.f90 -o inventario.exe
+./inventario.exe
 ```
 
----
+## Recorrido de demostración
 
-## ⚙️ Requisitos y Ejecución
+Seleccionar cargar inventario, cargar instrucciones y crear informe, en ese orden. Revisar inventario.inv, instrucciones.mov e informe.txt para conocer los formatos de entrada y salida.
 
-1. Clonar el repositorio:
-   ```bash
-   git clone https://github.com/Ennero/LFP_S2_2024_Practica_202302220.git
-   cd LFP_S2_2024_Practica_202302220
-   ```
-2. Ejecutar según el entorno (`Fortran, Python`):
-   - Consultar los scripts o archivos principales del proyecto para parámetros específicos.
+## Organización
 
----
+El código y los archivos de entrada se encuentran en la raíz; los nombres de los puntos de entrada se indican arriba.
 
-## 📄 Licencia
+## Alcance y límites
 
-Este proyecto está bajo la Licencia **MIT**. Consulta el archivo [LICENSE](LICENSE) para más detalles.
+No contiene interfaz Python ni motor general de autómatas. Los módulos .mod y el ejecutable se generan localmente.
 
----
+## Contexto y licencia
 
-## 👨‍💻 Autor
+Trabajo académico o de aprendizaje conservado en el portafolio de [Enner Mendizabal](https://github.com/Ennero). Los créditos de los trabajos en grupo se conservan en sus entregas y manuales.
 
-- **Enner Mendizabal** - [@Ennero](https://github.com/Ennero)  
-- *Facultad de Ingeniería, Universidad de San Carlos de Guatemala.*
+Consultar [LICENSE](LICENSE) para la licencia de la raíz. Las dependencias y los componentes con avisos o licencias propios conservan sus condiciones.

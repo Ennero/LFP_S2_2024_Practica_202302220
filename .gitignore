@@ -10,3 +10,19 @@ bin/
 Thumbs.db
 .vscode/
 .idea/
+
+# Local configuration (commit examples, never personal values).
+.env
+.env.*
+!.env.example
+!.env.*.example
+!**/.env.example
+!**/.env.*.example
+.DS_Store
+Thumbs.db
+*.log
+*.tmp
+
+# Generated artifacts for this repository.
+*.obj
+cmake-build-*/
